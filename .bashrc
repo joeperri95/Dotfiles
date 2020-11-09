@@ -56,8 +56,35 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+ #echo current git branch if there is one available
+ 
+ getBranch(){
+ 
+     RED='\033[01;91m'
+     GREEN='\033[01;32m'
+     NC='\033[0m'
+ 
+     if git rev-parse --git-dir > /dev/null 2>&1; then
+     #if this is actually a git directory
+ 
+         if [ "$(git status -s)" != "" ]; then
+             echo -e "${RED}($(git rev-parse --abbrev-ref HEAD)) ${NC}"
+         else
+ 
+             echo -e "${GREEN}($(git rev-parse --abbrev-ref HEAD)) ${NC}"
+         fi
+ 
+     else
+ 
+         echo ""
+ 
+     fi
+ 
+ }
+
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -118,3 +145,9 @@ fi
 
 # Removes pyc files and pycache folder
 PYTHONDONTWRITEBYTECODE=1
+
+#this should make xdg-open autocomplete with my alias
+complete -o default -o bashdefault op
+
+#get a nice greeting
+fortune | cowsay | lolcat
