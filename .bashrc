@@ -128,6 +128,9 @@ if [ -f /usr/share/bash-completion/bash_completion ]; then
 elif [ -f /etc/bash_completion ]; then
 . /etc/bash_completion
 fi
+if [ -f ~/.complete/tmux-complete ]; then
+. ~/.complete/tmux-complete
+fi
 fi
 
 # Removes pyc files and pycache folder

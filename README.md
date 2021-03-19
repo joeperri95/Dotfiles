@@ -1,3 +1,3 @@
 # Dotfiles
 
-my .bashrc .bash_aliases and .vimrc 
+my .bashrc .bash_aliases, .tmux.conf  and .vimrc 
