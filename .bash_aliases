@@ -2,10 +2,17 @@
 alias op='xdg-open'
 alias sba='source ~/.bash_aliases'
 alias eba='vim ~/.bash_aliases'
-alias sbr='vim ~/.bash_rc'
-alias ebr='vim ~/.bash_rc'
+alias sbr='vim ~/.bashrc'
+alias ebr='vim ~/.bashrc'
 alias shit='sudo $(history -p !!)'
 alias bt='bluetoothctl'
+
+
+function yoink(){
+    # give me ownership
+    sudo chown $USER $1
+    sudo chgrp $USER $1
+}
 
 #ls aliases
 alias ll='ls -alF'
@@ -17,8 +24,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 #git related
 alias gs='git status'
-alias gp='git pull'
-alias ga='git add -p'
+alias gp='git push'
 
 #docker related
 alias dc='docker-compose'
