@@ -80,7 +80,7 @@ getBranch(){
 TERM_COLOR="$GREEN";
 
 if [ "$color_prompt" = yes ]; then
-     PS1="${debian_chroot:+($debian_chroot)}$(getBranch)\[${TERM_COLOR}\u@\h\[${NC}\]:\[${BLUE}\]\w\[${NC}\]\$ "
+     PS1='${debian_chroot:+($debian_chroot)}$(getBranch)\[$(echo -e ${TERM_COLOR})\]\u@\h\[$(echo -e $NC)\]:\[$(echo -e $BLUE)\]\w\[$(echo -e $NC)\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
