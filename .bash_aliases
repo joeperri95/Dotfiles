@@ -7,6 +7,18 @@ alias ebr='vim ~/.bashrc'
 alias shit='sudo $(history -p !!)'
 alias bt='bluetoothctl'
 
+function serial(){
+    # requires pyserial to be globally installed
+    if [ $# == 0 ]; then
+        echo "Enter a serial port to connect to"
+        return 
+    elif [ $# == 1 ]; then
+        speed=115200
+    else
+        speed=$2
+    fi
+    python3 -m serial.tools.miniterm --eol LF $1 $speed
+}
 
 function yoink(){
     # give me ownership
