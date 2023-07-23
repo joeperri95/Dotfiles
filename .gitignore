@@ -1,0 +1,4 @@
+# This is for the actual repo not a global dotfile
+
+nvim/plugged/nvim-lspconfig/*
+nvim/plugged/nvim-lspconfig

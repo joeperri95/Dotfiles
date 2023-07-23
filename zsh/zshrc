@@ -1,0 +1,44 @@
+# ZSH config file
+
+# Start custom prompt
+eval "$(starship init zsh)"
+
+# Add to path
+export PATH="${PATH}:/usr/local/bin"
+export PATH="${PATH}:${HOME}/.local/bin"
+
+# Enable vi mode
+set -o vi
+
+# Enable better globbing
+setopt extendedglob
+
+# Duh 
+export EDITOR='nvim'
+
+# Quality of life aliases
+alias ls="ls -G"
+alias l="ls -G"
+alias gits="git status"
+alias gitp="git push"
+alias v="nvim"
+alias p="pushd"
+alias pd="pushd ~/Downloads"
+alias pr="pushd ~/Records"
+alias pw="pushd ~/Workspace"
+alias pt="pushd /tmp"
+alias sb="source ~/.zshrc"
+alias eb="$EDITOR ~/.zshrc"
+
+# Good completions
+if [ -f ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    . ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+# Add rust tools to path
+if [ -f ~/.cargo/env ]; then
+    . ~/.cargo/env
+fi
+
+autoload -Uz compinit
+compinit

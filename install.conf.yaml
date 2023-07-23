@@ -1,0 +1,31 @@
+- defaults:
+    link:
+      relink: true
+
+- clean: ['~']
+  
+- link:
+    ~/.tmux.conf: tmux/tmux.conf 
+    ~/.bashrc: bash/bashrc
+    ~/.bash_aliases: bash/bash_aliases
+    ~/.gitconfig: git/gitconfig
+    ~/.config/fish: 
+      create: true
+      path: fish
+    ~/.config/tmux/plugins:
+      create: true
+      path: tmux/plugins 
+    ~/.config/tmuxinator:
+      create: true
+      path: tmuxinator
+    ~/.config/nvim/init.lua: 
+      create: true
+      path: nvim/init.lua
+    ~/.config/nvim/lua: 
+      create: true
+      path: nvim/lua
+    ~/.config/nvim/plugin: 
+      create: true
+      path: nvim/plugin
+    ~/.config/starship.toml: starship/starship.toml
+    ~/.config/guake/guake.cfg: guake/guake.cfg

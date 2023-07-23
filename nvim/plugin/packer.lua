@@ -1,0 +1,2 @@
+-- This increases startup time too much
+-- vim.cmd(':PackerSync')

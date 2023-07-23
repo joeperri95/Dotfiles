@@ -1,0 +1,5 @@
+require('core.packer')
+require('core.options')
+require('core.remaps')
+require('core.lsp')
+require('core.autocmd')

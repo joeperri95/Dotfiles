@@ -1,0 +1,33 @@
+# Prompt config
+
+format = """
+[┌─](green) $directory$rust$git_status$git_branch $fill $time$hostname 
+[└─>](green) 
+"""
+
+add_newline=true
+
+# Modules
+
+[time]
+format = "[$time]($style)"
+use_12hr = true
+disabled = false
+
+[hostname]
+disabled = false
+format = " on $hostname"
+
+[git_status]
+format="$staged$modified$untracked "
+staged = '[+$count](green) '
+modified = '[!$count](yellow) '
+untracked = '[?$count](red)'
+
+[directory]
+style = "bold blue"
+truncation_symbol = ""
+fish_style_pwd_dir_length = 1
+
+[rust]
+style = "red"
