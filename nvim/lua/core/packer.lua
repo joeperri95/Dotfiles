@@ -14,7 +14,6 @@ local packer_bootstrap = ensure_packer()
 if vim.g.vscode then
   return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
-
     -- Put this at the end after all plugins
     if packer_bootstrap then
       require('packer').sync()
@@ -24,6 +23,8 @@ else
   return require('packer').startup(function(use)
     -- plugin manager
     use 'wbthomason/packer.nvim'
+    -- better highlighting and more
+    use 'nvim-treesitter/nvim-treesitter'
     -- colourscheme
     use 'dracula/vim'
     -- start screen and bookmark manager
@@ -54,6 +55,22 @@ else
             default_file_explorer=true
         }) end
     }
+    -- snippets engine
+    use { 
+        "L3MON4D3/LuaSnip",
+        dependencies = { "rafamadriz/friendly-snippets" },
+    } 
+    -- completion
+    use "hrsh7th/cmp-nvim-lsp"
+    use "hrsh7th/cmp-buffer"
+    use "hrsh7th/cmp-path"
+    use "hrsh7th/cmp-cmdline"
+    use "hrsh7th/nvim-cmp"
+    use "saadparwaiz1/cmp_luasnip"
+
+    -- The best plugin
+    use "chaoren/vim-wordmotion"
+
     -- Put this at the end after all plugins
     if packer_bootstrap then
       require('packer').sync()
