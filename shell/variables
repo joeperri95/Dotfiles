@@ -1,0 +1,31 @@
+# Common variable exports
+
+# Import utility functions
+if [ -f "${XDG_CONFIG_DIR}/shell/utils" ]; then
+    source "${XDG_CONFIG_DIR}/shell/utils"
+fi
+
+# Set the default editor to a sensible default 
+if [ $(if_installed nvim) -ne 1 ]; then
+    export EDITOR='nvim' 
+elif [ $(is_installed vim) -ne 1 ]; then
+    export EDITOR='vim' 
+fi
+
+# Use nvim as the man pager is possible 
+if [ $(if_installed nvimpager) -ne 1 ]; then
+    export PAGER="nvimpager"
+fi
+
+# Add to path
+export PATH="${PATH}:/usr/local/bin"
+
+if [ -d ${HOME}/.local/bin ]; then
+    export PATH="${PATH}:${HOME}/.local/bin"
+fi
+
+# Coloured GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# Enable colours with less
+export LESS="-R"

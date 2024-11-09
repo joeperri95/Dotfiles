@@ -3,36 +3,27 @@
 # Start custom prompt
 eval "$(starship init zsh)"
 
-# Add to path
-export PATH="${PATH}:/usr/local/bin"
-export PATH="${PATH}:${HOME}/.local/bin"
+export XDG_CONFIG_DIR="${HOME}/.config"
+export SHELL=$(which zsh)
 
 # Enable vi mode
 set -o vi
 
+if [ -f ${XDG_CONFIG_DIR}/shell/variables ]; then
+    source ${XDG_CONFIG_DIR}/shell/variables
+fi
+
+# Cross shell aliases and export statements
+if [ -f ${XDG_CONFIG_DIR}/shell/aliases ]; then
+    source ${XDG_CONFIG_DIR}/shell/aliases
+fi
+
 # Enable better globbing
 setopt extendedglob
 
-# Duh 
-export EDITOR='nvim'
-
-# Quality of life aliases
-alias ls="ls -G"
-alias l="ls -G"
-alias gits="git status"
-alias gitp="git push"
-alias v="nvim"
-alias p="pushd"
-alias pd="pushd ~/Downloads"
-alias pr="pushd ~/Records"
-alias pw="pushd ~/Workspace"
-alias pt="pushd /tmp"
-alias sb="source ~/.zshrc"
-alias eb="$EDITOR ~/.zshrc"
-
 # Good completions
-if [ -f ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    . ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [ -f "${XDG_CONFIG_DIR}/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+    . "${XDG_CONFIG_DIR}/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 
 # Add rust tools to path

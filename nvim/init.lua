@@ -1,5 +1,5 @@
 require('core.packer')
+require('core.lsp')
 require('core.options')
 require('core.remaps')
-require('core.lsp')
 require('core.autocmd')

@@ -1,0 +1,18 @@
+" Absolute necessities
+" To be used in constrained environments
+
+set showmatch
+set ignorecase
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set autoindent
+set number
+set relativenumber
+set noswapfile
+set clipboard=unnamedplus
+set splitbelow
+set splitright
+
+:nnoremap - :Explore<CR>
+:syntax on

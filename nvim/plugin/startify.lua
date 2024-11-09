@@ -1,4 +1,5 @@
-vim.g.startify_bookmarks = {}
-
--- vim.g.startify_custom_header="Bla"
-
+vim.g.startify_bookmarks = {
+    {v = '~/.config/nvim'},
+    {z = '~/.zshrc'},
+    {o = '~/Records/Org'}
+}

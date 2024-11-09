@@ -1,0 +1,101 @@
+# Shell aliases for bash or zsh
+
+if [ -z ${XDG_CONFIG_DIR} ]; then
+    XDG_CONFIG_DIR="${HOME}/.config"
+    mkdir -p "${HOME}/.config"
+fi
+
+# Import utility functions
+if [ -f "${XDG_CONFIG_DIR}/shell/utils" ]; then
+    source "${XDG_CONFIG_DIR}/shell/utils"
+fi
+
+# Enable color support of ls and also add handy aliases
+if [ $(if_installed dircolors) -ne 1 ]; then
+    if [ ! -f ${XDG_CONFIG_DIR}/shell/dircolors ]; then
+        mkdir -p ${XDG_CONFIG_DIR}/shell
+        dircolors -b >> ${XDG_CONFIG_DIR}/shell/dircolors
+    fi
+    source ${XDG_CONFIG_DIR}/shell/dircolors
+    alias ls='ls --color=auto'
+    alias_if_installed 'grep' 'grep' 'grep --color=auto'
+fi
+
+# Quality of life
+function l() {
+    # ls or less as appropriate
+    if [ -d $1 ]; then
+        ls -G --color=auto $1
+    elif [ -f $1 ]; then
+        less $1
+    fi
+}
+
+function yoink() {
+    # give me ownership
+    sudo chown $USER $1
+    sudo chgrp $USER $1
+}
+
+if [ -f ${XDG_CONFIG_DIR}/shell/aliases ]; then
+    alias sba='source ${XDG_CONFIG_DIR}/aliases'
+    # by putting two lines here nvim will fallback to vim if not present
+    alias_if_installed 'vim' 'eba' "vim ${XDG_CONFIG_DIR}/shell/aliases"
+    alias_if_installed 'nvim' 'eba' 'nvim ${XDG_CONFIG_DIR}/shell/aliases'
+fi
+
+if [ -f ~/.bashrc ]; then
+    alias sbr='source ~/.bashrc'
+    alias_if_installed 'vim' 'ebr' 'vim ~/.bashrc'
+    alias_if_installed 'nvim' 'ebr' 'nvim ~/.bashrc'
+fi
+
+alias p="pushd"
+alias pd="pushd ~/Downloads"
+
+# jumplist related
+if [[ $(if_installed fzf) -ne 1 ]]; then
+    jumplist="${XDG_CONFIG_DIR}/shell/jumplist"
+    if [ -f "${jumplist}" ]; then
+        function ja() {
+           # add to the jumplist
+           if [ "$#" -eq 1 ]; then
+               if [ -d $1 ]; then
+                   new_jump=$(cd $1; pwd); 
+                   echo ${new_jump} >> ${jumplist}
+               fi
+           else
+               echo ${PWD} >> ${jumplist}
+           fi
+        }
+        # jump 
+        if [[ $(if_installed fzf) -ne 1 ]]; then
+            function j() {
+                echo ${jumplist}
+                pushd $(cat ${jumplist} | fzf)
+            }
+        fi
+        # edit the jumplist
+        alias_if_installed 'vim' 'jd' "vim ${jumplist}"
+        alias_if_installed 'nvim' 'jd' "nvim ${jumplist}"
+    else
+        touch ${jumplist} &> /dev/null
+    fi
+fi
+
+alias_if_installed 'bluetoothctl' 'bt' 'bluetoothctl'
+alias_if_installed 'xdg-open' 'op' 'xdg-open'
+
+# git related
+alias_if_installed 'git' 'gits' 'git status'
+alias_if_installed 'git' 'gitp' 'git push'
+
+# docker related
+alias_if_installed 'docker-compose' 'dc' 'docker-compose'
+alias_if_installed 'docker' 'docker-stop-all' 'docker stop $(docker ps -aq)'
+alias_if_installed 'docker' 'docker-rm-all' 'docker rm $(docker ps -aq)'
+alias_if_installed 'docker' 'docker-rmi-all' 'docker rmi $(docker image list -q)'
+
+# vim related
+alias_if_installed 'vim' 'v' 'vim'
+alias_if_installed 'nvim' 'v' 'nvim'

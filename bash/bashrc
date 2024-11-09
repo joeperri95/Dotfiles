@@ -1,152 +1,45 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
+# Bash specific configuration
+export XDG_CONFIG_DIR="${HOME}/.config"
 
-# If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
+# Import shell utilities
+if [ ${XDG_CONFIG_DIR}/shell/utils ]; then
+    source ${XDG_CONFIG_DIR}/shell/utils
+fi
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
+# History related settings
 HISTCONTROL=ignoreboth
-
-# append to the history file, don't overwrite it
 shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
+# Resize window if needed
 shopt -s checkwinsize
 
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
+# Enable vi mode
+set -o vi
 
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+# Cross shell aliases and export statements
+if [ ${XDG_CONFIG_DIR}/shell/variables ]; then
+    source ${XDG_CONFIG_DIR}/shell/variables
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
+if [ ${XDG_CONFIG_DIR}/shell/aliases ]; then
+    source ${XDG_CONFIG_DIR}/shell/aliases
+fi
 
-# turn this on for tmux
-force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
+# Enable programmable completion features
+if ! shopt -oq posix; then
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
+    if [ -f ${XDG_CONFIG_DIR}/tmux/tmux-complete ]; then
+        . ${XDG_CONFIG_DIR}/tmux/tmux-complete
     fi
 fi
 
-# intuitive color codes
-RED='\033[01;91m'
-GREEN='\033[01;32m'
-BLUE='\033[01;34m'
-NC='\033[0m'
-
-#echo current git branch if there is one available
-
-getBranch(){
-     if git rev-parse --git-dir > /dev/null 2>&1; then
-     #if this is actually a git directory
- 
-         if [ "$(git status -s)" != "" ]; then
-             echo -e "${RED}($(git rev-parse --abbrev-ref HEAD)) ${NC}"
-         else
-             echo -e "${GREEN}($(git rev-parse --abbrev-ref HEAD)) ${NC}"
-         fi
- 
-     else
-         echo ""
-     fi
- 
- }
-
-# you can change this on other servers to quickly distinguish where you are 
-TERM_COLOR="$GREEN";
-
-if [ "$color_prompt" = yes ]; then
-     PS1='${debian_chroot:+($debian_chroot)}$(getBranch)\[$(echo -e ${TERM_COLOR})\]\u@\h\[$(echo -e $NC)\]:\[$(echo -e $BLUE)\]\w\[$(echo -e $NC)\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+# Start custom prompt
+if [ $(if_installed starship) -ne 1 ]; then
+    eval "$(starship init bash)"
 fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-fi
-
-# colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# Alias definitions.
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-if [ -f /usr/share/bash-completion/bash_completion ]; then
-. /usr/share/bash-completion/bash_completion
-elif [ -f /etc/bash_completion ]; then
-. /etc/bash_completion
-fi
-if [ -f ~/.complete/tmux-complete ]; then
-. ~/.complete/tmux-complete
-fi
-fi
-
-# Removes pyc files and pycache folder
-PYTHONDONTWRITEBYTECODE=1
-
-# This should make xdg-open autocomplete with my alias
-complete -o default -o bashdefault op
-
-# Autocomplete for docker related things
-
-_docker-complete(){
-	local word=${COMP_WORDS[${COMP_CWORD}]}
-	local repl=''
-    if [ -z $word ]; then
-		repl=($(docker ps --format {{.Names}}))
-	else
-		repl=($(docker ps --format {{.Names}} | grep $word))
-	fi
-	COMPREPLY=("${repl[@]}")
-	return 0
-}
-
-# run bash in container
-docker-bash(){
-	docker exec -it $1 /bin/bash
-}
-
-set -o vi
-complete -F _docker-complete docker-bash

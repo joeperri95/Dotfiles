@@ -1,0 +1,12 @@
+# utility functions
+function if_installed() {
+    $(which $1 &> /dev/null) 
+    echo $?
+}
+
+function alias_if_installed() {
+    installed=$(if_installed $1)
+    if [[ ${installed} -ne 1 ]]; then
+        alias "$2=$3"
+    fi
+}
