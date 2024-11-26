@@ -2,3 +2,7 @@
 
 nvim/plugged/nvim-lspconfig/*
 nvim/plugged/nvim-lspconfig
+
+tmux/plugins
+shell/jumplist
+venv

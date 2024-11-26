@@ -3,44 +3,47 @@
       relink: true
 
 - clean: ['~']
-  
+
 - link:
     ~/.bashrc: bash/bashrc
-    ~/.config/tmux: 
+    ~/.config/tmux/tmux.conf:
       create: true
-      path: tmux 
-    ~/.config/alacritty: 
+      path: tmux/tmux.conf
+    ~/.local/bin/tmux-sessionizer.sh:
       create: true
-      path: alacritty 
-    ~/.config/rofi: 
+      path: tmux/tmux-sessionizer.sh
+    ~/.config/alacritty:
       create: true
-      path: rofi/config 
-    ~/.local/share/rofi/themes: 
+      path: alacritty
+    ~/.config/rofi:
+      create: true
+      path: rofi/config
+    ~/.local/share/rofi/themes:
       create: true
       path: rofi/themes
-    ~/.config/shell: 
+    ~/.config/shell:
       create: true
       path: shell
     ~/.zshrc: zsh/zshrc
     ~/.config/bspwm:
       create: true
-      path: bspwm 
+      path: bspwm
     ~/.config/sxhkd:
       create: true
-      path: sxhkd 
+      path: sxhkd
     ~/.config/vim:
       create: true
-      path: vim 
+      path: vim
     ~/.config/tmuxinator:
       create: true
       path: tmuxinator
-    ~/.config/nvim/init.lua: 
+    ~/.config/nvim/init.lua:
       create: true
       path: nvim/init.lua
-    ~/.config/nvim/lua: 
+    ~/.config/nvim/lua:
       create: true
       path: nvim/lua
-    ~/.config/nvim/plugin: 
+    ~/.config/nvim/plugin:
       create: true
       path: nvim/plugin
     ~/.config/starship.toml: starship/starship.toml
