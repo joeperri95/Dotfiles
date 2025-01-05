@@ -13,6 +13,9 @@ if [ -f ${XDG_CONFIG_DIR}/shell/variables ]; then
     source ${XDG_CONFIG_DIR}/shell/variables
 fi
 
+# Turn off caps lock
+setxkbmap -option ctrl:nocaps
+
 # Cross shell aliases and export statements
 if [ -f ${XDG_CONFIG_DIR}/shell/aliases ]; then
     source ${XDG_CONFIG_DIR}/shell/aliases
