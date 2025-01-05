@@ -1,0 +1,4 @@
+window-decoration = false
+theme = catppuccin-mocha
+font-family = DejaVuSansM Nerd Font Mono
+font-size = 16

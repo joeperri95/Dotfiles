@@ -12,9 +12,9 @@
     ~/.local/bin/tmux-sessionizer.sh:
       create: true
       path: tmux/tmux-sessionizer.sh
-    ~/.config/alacritty:
+    ~/.config/ghostty/config:
       create: true
-      path: alacritty
+      path: ghostty 
     ~/.config/rofi:
       create: true
       path: rofi/config
