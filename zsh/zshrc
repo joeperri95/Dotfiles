@@ -29,6 +29,21 @@ if [ -f "${XDG_CONFIG_DIR}/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; t
     . "${XDG_CONFIG_DIR}/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 
+function db {
+    container=$(docker ps --format '{{ .Names }}' | fzf)
+    if [ ! -z ${container// } ]; then
+        echo attaching to ${container}
+        docker exec -it ${container} bash
+    fi
+}
+
+function t {
+    tmux attach &> /dev/null
+    if [ $? -ne 0 ]; then
+        tmux-sessionizer.sh /home/joe
+    fi
+}
+
 # Add rust tools to path
 if [ -f ~/.cargo/env ]; then
     . ~/.cargo/env

@@ -11,6 +11,7 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000
+HISTFILE=""
 
 # Resize window if needed
 shopt -s checkwinsize
